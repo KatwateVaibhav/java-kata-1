@@ -1,9 +1,6 @@
 package org.echocat.kata.java.part1.controller;
 
-import java.util.Comparator;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 import org.echocat.kata.java.part1.model.AuthorsModel;
 import org.echocat.kata.java.part1.model.BookModel;

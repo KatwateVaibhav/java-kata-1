@@ -6,6 +6,7 @@ import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.echocat.kata.java.part1.controller.ErrorController;
 import org.echocat.kata.java.part1.model.BookModel;
 import org.echocat.kata.java.part1.service.FilterData;
 import org.springframework.stereotype.Service;
@@ -27,15 +28,22 @@ public class ReadBookCSV extends ReadFromCSV<BookModel> implements FilterData<Bo
    
     @Override
     public Set<BookModel> returnFilterIsbn(String value) {
-        Set<BookModel> books=this.returnBookItem("books");
-        return books.stream().filter(x->x.getIsbn().equals(value)).collect(Collectors.toSet()).stream().
-				collect(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(BookModel::getTitle))));
+        Set<BookModel> books = this.returnBookItem("books").stream().filter(x->x.getIsbn().equals(value)).collect(Collectors.toSet());
+        
+        if(books.isEmpty()) {
+        	throw new ErrorController("Not Found");
+        }else {
+        	return books;
+        }
     }
 
     @Override
     public Set<BookModel> returnFilterAuthors(String value) {
-        Set<BookModel> books=this.returnBookItem("books");
-        return books.stream().filter(x->x.getAuthors().equals(value)).collect(Collectors.toSet()).stream().
-				collect(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(BookModel::getTitle))));
+        Set<BookModel> books=this.returnBookItem("books").stream().filter(x->x.getAuthors().equals(value)).collect(Collectors.toSet());
+        if(books.isEmpty()) {
+        	throw new ErrorController("Not Found");
+        }else {
+        	return books;
+        }
     }
 }
